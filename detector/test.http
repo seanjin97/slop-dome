@@ -1,0 +1,6 @@
+POST http://localhost:8000/infer/is-ai
+Content-Type: application/json
+
+{
+  "text": "In this repo, Iron Dome is the proposed personal AI agent behind Slop Dome. The idea is to let messages that look human-written through and route likely AI-written messages to your agent. If the sender also has an agent, the two would work out what actually needs to happen and bring the people back in with a short summary and any action items. The README calls for on-device processing or an API key you choose. READMEThe current prototype scores text. Its FastAPI endpoint, POST /infer/is-ai, returns scores for four categories (human, ai, ai_edited, and humanized) and computes an overall AI score as 1 − human score. That score is the model’s estimate of authorship. API · Model The Slack, WhatsApp, and email adapters, along with the agent-to-agent conversation and summary, are still design work."
+}

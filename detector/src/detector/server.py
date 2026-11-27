@@ -1,13 +1,28 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
+
+from .model import inference
 
 app = FastAPI()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+class InferenceRequest(BaseModel):
+    text: str
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str | None = None):
-    return {"item_id": item_id, "q": q}
+class IsAIResponse(BaseModel):
+    is_ai: bool
+
+
+IS_AI_THRESHOLD = 0.7
+
+
+@app.post("/infer/is-ai")
+def run_infer_is_ai(request: InferenceRequest) -> IsAIResponse:
+    result = inference(request.text)
+    return IsAIResponse(is_ai=result.ai_score > IS_AI_THRESHOLD)
+
+
+@app.get("/health")
+def health():
+    return {"server": "ok"}
