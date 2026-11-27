@@ -8,10 +8,11 @@ input -> slop-dome defence loop -> final outcome / summary if any
 
 ```mermaid
 flowchart TD
-    A[input from adapter] --> B{is it AI message?}
-    B -- No --> C[allow message through + summary if any]
-    B -- Yes --> D[slop-dome defence loop]
-    D --> E[synethesised summary + any actionables]
+    A[input from adapter] --> B[cloudflared ingress to local pc]
+    B --> C{is it AI message?}
+    C -- No --> D[allow message through + summary if any]
+    C -- Yes --> E[slop-dome defence loop]
+    E --> F[synethesised summary + any actionables]
 
 
 ```

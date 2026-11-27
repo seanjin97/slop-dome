@@ -1,4 +1,4 @@
-POST http://localhost:8000/infer/is-ai
+POST https://webhook.friedsalad.com/infer/is-ai
 Content-Type: application/json
 
 {
