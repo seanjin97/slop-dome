@@ -1,9 +1,26 @@
+import logging
+import os
+
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from .model import inference
 
+logger = logging.getLogger("uvicorn.error")
+
+cors_origins = [
+    origin
+    for origin in map(str.strip, os.getenv("HOST", "").split(","))
+    if origin and origin != "*"
+]
+
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=cors_origins,
+    allow_methods=["GET", "POST"],
+)
 
 
 class InferenceRequest(BaseModel):
@@ -20,6 +37,7 @@ IS_AI_THRESHOLD = 0.7
 @app.post("/infer/is-ai")
 def run_infer_is_ai(request: InferenceRequest) -> IsAIResponse:
     result = inference(request.text)
+    logger.info("POST /infer/is-ai %s", result.model_dump_json())
     return IsAIResponse(is_ai=result.ai_score > IS_AI_THRESHOLD)
 
 
