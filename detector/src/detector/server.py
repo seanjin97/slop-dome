@@ -5,7 +5,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from .model import inference
+from .adapters.slack import router as slack_router
+from .model import IS_AI_THRESHOLD, inference
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -16,6 +17,7 @@ cors_origins = [
 ]
 
 app = FastAPI()
+app.include_router(slack_router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
@@ -29,9 +31,6 @@ class InferenceRequest(BaseModel):
 
 class IsAIResponse(BaseModel):
     is_ai: bool
-
-
-IS_AI_THRESHOLD = 0.7
 
 
 @app.post("/infer/is-ai")

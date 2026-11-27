@@ -8,6 +8,7 @@ from transformers import AutoConfig, AutoModel, AutoTokenizer, PreTrainedModel
 from .utils import sanitise
 
 MODEL_REPO = "wasitaigeneratedcom/tropa-mini-ai-text-detector"
+IS_AI_THRESHOLD = 0.7
 
 
 class LabelProbabilities(BaseModel):
